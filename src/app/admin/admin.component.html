@@ -1,15 +1,10 @@
 <div class="container">
+  <div [ngStyle]="msgStyle" [hidden]="hideMsg">
+    {{message}}
+  </div>
   <h1>Book Form</h1>
   <button (click)="addAuthor()">Add Author</button>
   <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="id">Id:</label>
-      <input type="text" class="form-control" id="id"  formControlName="id" required>
-      <div [hidden]="id.pristine || id.valid"
-           class="alert alert-danger">
-        Id must be 4 digits long starting with a number different from 0.
-      </div>
-    </div>
     <div class="form-group">
       <label for="category">Category:</label>
       <input type="text" class="form-control" id="category"  formControlName="category">
@@ -54,10 +49,18 @@
     <div class="form-group">
       <label for="year">Year:</label>
       <input type="text" class="form-control" id="year" formControlName="year">
+      <div [hidden]="title.pristine || title.valid"
+           class="alert alert-danger">
+        Year is required.
+      </div>
     </div>
     <div class="form-group">
       <label for="description">Description:</label>
       <textarea cols="40" class="form-control" id="description" formControlName="description"></textarea>
+      <div [hidden]="title.pristine || title.valid"
+           class="alert alert-danger">
+        Description is required.
+      </div>
     </div>
     <button type="submit" class="btn btn-success" [disabled]="bookForm.invalid">Submit</button>
   </form>
