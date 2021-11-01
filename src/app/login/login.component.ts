@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import {AuthenticationService} from '../authentication.service';
+import {AuthenticationService} from '../authentication/authentication.service';
 import {Router} from '@angular/router';
+import {TokenService} from '../authentication/token.service';
 
 @Component({
   selector: 'app-login',
@@ -11,9 +12,11 @@ export class LoginComponent {
   username = '';
   password = '';
   message!: string;
+  loggedIn = false;
 
   constructor(private router: Router,
-              private loginService: AuthenticationService) { }
+              private loginService: AuthenticationService,
+              private tokenService: TokenService) { }
 
   get isLoggedIn(): boolean {
     return this.loginService.isLoggedIn();
@@ -23,16 +26,23 @@ export class LoginComponent {
     return this.loginService.getUser();
   }
 
-  checkLogin(): boolean {
+  checkLogin(): void {
     this.message = '';
-    if (!this.loginService.login(this.username, this.password)) {
-      this.message = 'Invalid Login';
-      setTimeout(() => {
-        this.message = '';
-      }, 2500);
-      return false;
-    }
-    return true;
+    this.loginService.login(this.username, this.password).subscribe(
+      data => {
+        this.tokenService.saveToken(data.token);
+        this.tokenService.saveUserName(data.username);
+        this.tokenService.saveUserRole(data.role);
+        this.loggedIn = true;
+      },
+      err => {
+        this.loggedIn = false;
+        this.message = 'Invalid Login ' + err.error.message;
+        setTimeout(() => {
+          this.message = '';
+        }, 3000);
+      }
+    );
   }
 
   logout(): boolean {

@@ -14,6 +14,8 @@ import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
+import {authInterceptorProviders} from "./authentication/authentication-interceptor.service";
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import {HttpClientModule} from "@angular/common/http";
     BookComponent,
     AuthornamesPipe,
     LoginComponent,
-    AdminComponent
+    AdminComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,7 @@ import {HttpClientModule} from "@angular/common/http";
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
