@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {AuthenticationService} from "./authentication/authentication.service";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'book-store';
+  get login_label(): string {
+    return this.authService.isLoggedIn() ? 'Logout' : 'Login';
+  }
+  constructor(private authService: AuthenticationService) {}
 }
