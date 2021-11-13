@@ -3,8 +3,9 @@ import {Author, Book} from '../model/book';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {map} from 'rxjs/operators';
+import {environment} from "../../../environments/environment";
 
-const Url = 'http://localhost:8080/books-api/';
+const Url = environment.API_Url;
 
 @Injectable({
   providedIn: 'root'

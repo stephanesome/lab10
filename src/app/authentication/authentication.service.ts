@@ -3,8 +3,9 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {TokenService} from './token.service';
+import {environment} from "../../environments/environment";
 
-const Url = 'http://localhost:8080/auth/';
+const Url = environment.AUTH_Url;
 
 @Injectable({
   providedIn: 'root'
