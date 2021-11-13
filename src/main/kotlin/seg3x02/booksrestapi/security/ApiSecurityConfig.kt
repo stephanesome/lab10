@@ -43,7 +43,7 @@ class ApiSecurityConfig(var userDetailsService: UserDetailsServiceImpl,
 
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
-        http.cors().and().csrf().disable()
+         http.cors().and().csrf().disable()
             .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests().antMatchers("/auth/**").permitAll()

@@ -23,7 +23,7 @@ import seg3x02.booksrestapi.representation.*
 import java.net.URI
 
 @RestController
-@CrossOrigin(origins = ["http://localhost:4200"])
+@CrossOrigin(origins = ["*"])
 @RequestMapping("books-api", produces = ["application/hal+json"])
 class ApiController(val authorRepository: AuthorRepository,
                     val bookRepository: BookRepository,

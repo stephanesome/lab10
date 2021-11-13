@@ -19,7 +19,7 @@ import seg3x02.booksrestapi.security.jwt.JwtUtils
 import javax.validation.Valid
 
 @RestController
-@CrossOrigin(origins = ["http://localhost:4200"])
+@CrossOrigin(origins = ["*"])
 @RequestMapping("/auth")
 class AuthenticationController(val authenticationManager: AuthenticationManager,
                                val userRepository: UserRepository,
