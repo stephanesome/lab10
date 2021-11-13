@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  mysql:
+     image: mysql:latest
+     volumes: 
+       - mysql-data:/var/lib/mysql 
+     environment:
+       MYSQL_ROOT_PASSWORD: root
+       MYSQL_DATABASE: booksdb
+     networks:
+       - mysql-network
+     ports:
+       - 3306:3306
+       
+  booksserver:
+     build:
+       context: books-rest-api
+       dockerfile: Dockerfile
+     image: books-rest-api:latest
+     environment:
+       MYSQL_USER: root
+       MYSQL_ROOT_PASSWORD: root
+       MYSQL_DB: booksdb
+       MYSQL_HOST: mysql
+     networks:
+       - mysql-network
+     ports:
+       - 8080:8080
+     depends_on:
+       - mysql
+     
+  booksapp:
+     build:
+       context: bookstore-client
+       dockerfile: Dockerfile
+     image: books-api-client:latest
+     environment:
+        API_URL: 'http://localhost:8080/books-api/'
+        AUTH_URL: 'http://localhost:8080/auth/'
+     ports:
+       - 4100:80
+     depends_on:
+       - mysql
+       - booksserver
+       
+networks:
+  mysql-network: 
+  
+volumes:
+  mysql-data:
+  
