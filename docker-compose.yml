@@ -2,14 +2,20 @@ version: "3.8"
 
 services:
   mysql:
-     image: mysql:latest
+     image: mysql:8
      volumes: 
        - mysql-data:/var/lib/mysql 
+     restart: always
      environment:
        MYSQL_ROOT_PASSWORD: root
-       MYSQL_DATABASE: booksdb
+       MYSQL_DATABASE: booksDb
      networks:
        - mysql-network
+     healthcheck:
+       test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
+       interval: 30s
+       timeout: 10s
+       retries: 10
      ports:
        - 3306:3306
        
@@ -20,15 +26,16 @@ services:
      image: books-rest-api:latest
      environment:
        MYSQL_USER: root
-       MYSQL_ROOT_PASSWORD: root
-       MYSQL_DB: booksdb
+       MYSQL_PASSWORD: root
+       MYSQL_DB: booksDb
        MYSQL_HOST: mysql
      networks:
        - mysql-network
      ports:
        - 8080:8080
      depends_on:
-       - mysql
+       mysql:
+         condition: service_healthy
      
   booksapp:
      build:
